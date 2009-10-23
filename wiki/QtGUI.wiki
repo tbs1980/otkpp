@@ -1,1 +1,19 @@
 #summary Introduction to the Qt GUI.
+
+= Introduction =
+
+OTK++ implements Qt4-based graphical user interface for demonstration purposes. All algorithms implemented in OTK++ are available via the GUI. However, it can only handle functions of two variables.
+
+<img src="http://users.utu.fi/seppul/otkpp/images/Qt4-GUI-screenshot.png">
+
+= Functionality =
+
+(To be written...)
+
+== Specifying the function to minimize ==
+
+== Specifying the algorithm to use ==
+
+== Plotting ==
+
+== Picking iterates and search lines ==
