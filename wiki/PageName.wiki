@@ -1,0 +1,5 @@
+#summary Introduction to the Qt interface.
+
+= The Qt interface =
+
+(to be written...)
