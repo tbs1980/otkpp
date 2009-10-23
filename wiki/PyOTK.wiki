@@ -105,7 +105,7 @@ For a given function of two variables,
 the iterates produced by a solver can be plotted 
 on top of contours of the objective function.
 
-The following example demonstrates minimizing the Beale test function and plotting the results using the 'plot2d' module.
+The following example demonstrates minimizing the Beale test function and plotting the results using the 'plot_iterates_on_contours' method.
 
 {{{
 from pyotk.native import *
@@ -136,7 +136,46 @@ function of number of used iterations. The
 drawing convergence plots of one or more 
 algorithms into the same figure.
 
-TODO: write examples...
+The first example demonstrates using the 'compare_convergence' method for comparing convergence rates of different algorithms.
+
+{{{
+from pyotk.native import *
+from pyotk.testproblems import *
+from pyotk.convergence import *
+
+S = [ LinminBFGS(BFGSLmType.morethuente),
+      LinminBFGS(BFGSLmType.fletcher),
+      ConjGradMT(ConjGradType.FR),
+      ConjGradMT(ConjGradType.PR) ]
+
+P = [ Beale(),
+      HelicalValley(),
+      Wood(),
+      ExtendedRosenbrock(n=10) ]
+
+compare_convergence(S, P);
+}}}
+
+The second example demonstrates using the 'convergence_plot' method for plotting gradient norm and objective function value as a function of used iterations.
+
+{{{
+from pyotk.native import *
+from pyotk.testproblems import *
+from pyotk.convergence import *
+
+tf = ExtendedRosenbrock(8)
+results = minimize(GSLfdfsolver('vector_bfgs2'),
+                    DefaultSolverSetup(), tf.otk_instance,
+                    GradNormTest(eps=1e-8), tf.x0,
+                    NoConstraints(), 0, False)
+quantities = ['gradnorm', 'funcval']
+
+convergence_plot(results, quantities)
+}}}
+
+Download example 1: [http://users.utu.fi/seppul/otkpp/examples/pyotk/convergence_example_1.py convergence_example_1.py]
+
+Download example 2: [http://users.utu.fi/seppul/otkpp/examples/pyotk/convergence_example_2.py convergence_example_2.py]
 
 == 'pyotk.perfprof' module ==
 
