@@ -30,12 +30,58 @@ The starting point is specified as a tuple, and the stopping criterion can be in
 >>> sc = GradNormTest(eps=1e-8)
 }}}
 
-minimize is the driver routine for calling OTK++ algorithms from PyOTK:
+minimize is the driver routine for calling OTK++ algorithms from PyOTK. Its arguments are the solver to use, its parameters, the objective function, stopping criterion, starting point, constraints, and output verbosity level (+optional arguments):
 
 {{{
 >>> results = minimize(s, DefaultSolverSetup(), f.otk_instance,
-                       sc, x0, NoConstraints(), 0, False)
+                       sc, x0, NoConstraints(), 2, False)
 }}}
+
+In this case, the minimization routine produces the following output with a list of each iterate and the final value on termination of the algorithm:
+
+{{{
+k     x1                  x2                  f(x1,x2)
+0     -1.2                1                   24.2
+1     -1.03028            1.06927             4.12812
+2     -0.9292             0.826945            3.8548
+3     -0.784035           0.555324            3.53547
+4     -0.328604           0.0804101           1.8412
+5     -0.339617           0.108005            1.79995
+6     -0.159493           -0.00795583         1.45594
+7     0.039584            -0.0375634          1.07552
+8     0.0558816           0.00701654          0.892876
+9     0.202199            0.0184589           0.686777
+10    0.306646            0.0619552           0.583631
+11    0.844603            0.710851            0.0247749
+12    0.843606            0.710517            0.0245923
+13    0.916852            0.83491             0.0101719
+14    0.990373            0.984279            0.00127586
+15    1.00684             1.01406             5.79134e-05
+16    0.99951             0.999178            2.75314e-06
+17    0.999922            0.999841            6.90778e-09
+18    1                   1                   8.46378e-11
+19    1                   1                   3.10683e-13
+
+Minimizer:                         (1,1)
+Minimum value:                     4.54419e-20
+Minimum gradient:                  (-8.48204e-09,4.20621e-09)
+iterations:                        20
+function evaluations:              0
+gradient evaluations:              0 (0)
+}}}
+
+In addition to the above output, the results are also stored in the returned 'results' object. In this case, it contains the following fields:
+
+|| Field || Description ||
+|| input || used input parameters ||
+|| converged || was the stopping criterion satisfied on termination ||
+|| num_iter || number of iterations ||
+|| num_func_eval || number of function evaluations ||
+|| num_grad_eval || number of gradient evaluations ||
+|| states || detailed information about each iterate ||
+
+If the last parameter of the 'minimize' method is set to true, a special time test 
+mode will be enabled. In this case, any time-consuming operations such as storing the results is skipped, and only computation time is measured. The computed time will be stored to the 'time' attribute of the 'results' object.
 
 = Visualization =
 
