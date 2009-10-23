@@ -36,3 +36,11 @@ minimize is the driver routine for calling OTK++ algorithms from PyOTK:
 >>> results = minimize(s, DefaultSolverSetup(), f.otk_instance,
                        sc, x0, NoConstraints(), 0, False)
 }}}
+
+= Visualization =
+
+PyOTK uses Matplotlib for plotting. The following visualizations for the results of minimization algorithms are currently implemented:
+
+  * drawing iterates of an algorithm on contours of test function 
+  * drawing convergence plots of algorithms 
+  * computing the Dolan and More performance profiles
