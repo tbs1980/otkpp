@@ -12,8 +12,12 @@ OTK++ implements Qt4-based graphical user interface for demonstration purposes. 
 
 == Specifying the function to minimize ==
 
+== Specifying constraints ==
+
 == Specifying the algorithm to use ==
 
 == Plotting ==
+
+== Zooming and panning the contour plot ==
 
 == Picking iterates and search lines ==
