@@ -83,6 +83,8 @@ In addition to the above output, the results are also stored in the returned 're
 If the last parameter of the 'minimize' method is set to true, a special time test 
 mode will be enabled. In this case, any time-consuming operations such as storing the results is skipped, and only computation time is measured. The computed time will be stored to the 'time' attribute of the 'results' object.
 
+Download example: [http://users.utu.fi/seppul/otkpp/examples/pyotk/driver_example.py driver_example.py]
+
 = Visualization =
 
 PyOTK uses Matplotlib for plotting. The following visualizations for the results of minimization algorithms are currently implemented:
@@ -103,7 +105,27 @@ For a given function of two variables,
 the iterates produced by a solver can be plotted 
 on top of contours of the objective function.
 
-TODO: write examples...
+The following example demonstrates minimizing the Beale test function and plotting the results using the 'plot2d' module.
+
+{{{
+from pyotk.native import *
+from pyotk.plot2d import *
+from pyotk.testproblems import *
+
+f = Beale()
+x1 = f.plot_spec.x_range[0]
+x2 = f.plot_spec.x_range[1]
+y1 = f.plot_spec.y_range[0]
+y2 = f.plot_spec.y_range[1]
+z1 = f.plot_spec.z_range[0]
+z2 = f.plot_spec.z_range[1]
+
+s = LinminBFGS()
+results = minimize(s, DefaultSolverSetup(), f.otk_instance, f.stopcrit, f.x0, NoConstraints(), 0, False)
+plot_iterates_on_contours(results, x1, x2, y1, y2, z1, z2)
+}}}
+
+Download example: [http://users.utu.fi/seppul/otkpp/examples/pyotk/plot2d_example.py plot2d_example.py]
 
 == 'pyotk.convergence' module ==
 
