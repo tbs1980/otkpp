@@ -1,1 +1,65 @@
 #summary Introduction to OTK++ interfaces and examples.
+
+= Examples =
+
+The following code example demonstrates initializing the objective function, solver, starting point and stopping criterion and iterating the algorithm until the stopping criterion is satisfied. 
+
+{{{
+#include <otkpp/Function.h>
+#include <otkpp/solver/LinminBFGS.h>
+#include <otkpp/stopcrit/GradNormTest.h>
+
+int main()
+{
+  Function f("(1-x)^2+100*(y-x*x)^2");
+  LinminBFGS s(LinminBFGS::MORE_THUENTE);
+  vector< double > x0(2);
+  GradNormTest stopCrit(1e-8);
+  NativeSolver::IterationStatus status;
+  
+  x0[0] = -1.2;
+  x0[1] = 1.0;
+  s.setup(f, x0);
+  
+  do {
+    status = s.iterate();
+  }
+  while(status == NativeSolver::ITERATION_CONTINUE && 
+        stopCrit->test(s) == false);
+}
+}}}
+
+ In the above example, the objective function is initialized with the symbolic expression of the Rosenbrock function. By default, automatic differentiation is used for symbolic function expressions: 
+
+{{{
+Function f("(1-x)^2+100*(y-x*x)^2");
+}}}
+
+The algorithm is BFGS with the More and Thuente line search: 
+
+{{{
+LinminBFGS s(LinminBFGS::MORE_THUENTE);
+}}}
+
+
+The stopping criterion is initialized by constructing a gradient norm criterion with threshold value 1e-8:
+
+{{{
+GradNormTest stopCrit(1e-8);
+}}}
+
+Each native solver implements the methods setup and iterate. The setup method initializes the solver with the given function and starting point: 
+
+{{{
+s.setup(f, x0);
+}}}
+
+Iterate takes one iteration step. After each iteration step, the state of the algorithm(current iterate, function value,...) can be queried, and the stopping criterion can be tested. In this case, we are interested in the status of the iteration after each step: 
+
+{{{
+do {
+  status = s.iterate();
+}
+while(status == NativeSolver::ITERATION_CONTINUE && 
+      stopCrit->test(s) == false);
+}}}
