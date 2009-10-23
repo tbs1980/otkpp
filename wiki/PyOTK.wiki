@@ -1,1 +1,38 @@
 #summary Introduction to PyOTK and examples.
+
+= Accessing OTK++ interfaces from Python =
+
+The key idea of the PyOTK(OTK++ Python interface) is to implement seamless interface for the OTK++ classes. That is, the syntax for calling the OTK++ classes and methods from the Python side has as identical syntax with the corresponding C++ code as possible. This can be very conveniently done with Boost.Python. 
+
+The facilities for using the OTK++ classes and methods from Python are implemented in the 'native' module: 
+
+{{{
+>>> from pyotk.native import *
+}}}
+
+The 'testproblems' module contains the test problem set given by More, Garbow and Hillstrom: 
+
+{{{
+>>> from pyotk.testproblems import *
+}}}
+
+The Python methods for instantiating OTK++ object have a similar syntax with their C++ counterparts. For example, a GSL 'vector_bfgs2' solver and an instance of an two-dimensional Rosenbrock test function from the 'testproblems' module can be instantiated as follows:
+
+{{{
+>>> s = GSLfdfsolver('vector_bfgs2')
+>>> f = ExtendedRosenbrock(n=2)
+}}}
+
+The starting point is specified as a tuple, and the stopping criterion can be instantiated with constructors similar to those in the C++ library: 
+
+{{{
+>>> x0 = (-1.2, 1)
+>>> sc = GradNormTest(eps=1e-8)
+}}}
+
+minimize is the driver routine for calling OTK++ algorithms from PyOTK:
+
+{{{
+>>> results = minimize(s, DefaultSolverSetup(), f.otk_instance,
+                       sc, x0, NoConstraints(), 0, False)
+}}}
