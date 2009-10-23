@@ -41,6 +41,41 @@ minimize is the driver routine for calling OTK++ algorithms from PyOTK:
 
 PyOTK uses Matplotlib for plotting. The following visualizations for the results of minimization algorithms are currently implemented:
 
-  * drawing iterates of an algorithm on contours of test function 
-  * drawing convergence plots of algorithms 
-  * computing the Dolan and More performance profiles
+  * drawing iterates of an algorithm on contours of test function (left)
+  * drawing convergence plots of algorithms (middle)
+  * computing the Dolan and More performance profiles (right)
+
+<img src="http://users.utu.fi/seppul/otkpp/images/contour_with_iterates.png">
+<img src="http://users.utu.fi/seppul/otkpp/images/convergence_plot.png">
+<img src="http://users.utu.fi/seppul/otkpp/images/perfprof.png">
+
+== 'pyotk.plot2d' module ==
+
+The 'plot2d' module (left) implements methods 
+for visualizing the iteration of a solver. 
+For a given function of two variables, 
+the iterates produced by a solver can be plotted 
+on top of contours of the objective function.
+
+TODO: write examples...
+
+== 'pyotk.convergence' module ==
+
+A convergence plot represents the given quantity 
+(e.g. distance to an a-priori known minimizer) as a 
+function of number of used iterations. The 
+'convergence' module (middle) implements methods 
+drawing convergence plots of one or more 
+algorithms into the same figure.
+
+TODO: write examples...
+
+== 'pyotk.perfprof' module ==
+
+The Dolan and More performance profiles are commonly 
+used for comparing performance of different algorithms. 
+For a given set of test problems and a given set of 
+solvers, these performance profiles can be computed 
+by using the 'perfprof' module (right).
+
+TODO: write examples...
