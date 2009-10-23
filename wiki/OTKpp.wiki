@@ -5,7 +5,7 @@
 The following code example demonstrates initializing the objective function, solver, starting point and stopping criterion and iterating the algorithm until the stopping criterion is satisfied. 
 
 {{{
-#include <otkpp/Function.h>
+#include <otkpp/function/Function.h>
 #include <otkpp/solver/LinminBFGS.h>
 #include <otkpp/stopcrit/GradNormTest.h>
 
@@ -25,11 +25,16 @@ int main()
     status = s.iterate();
   }
   while(status == NativeSolver::ITERATION_CONTINUE && 
-        stopCrit->test(s) == false);
+        stopCrit.test(s) == false);
+  
+  printf("%-10s: niter: %-4d x*=%.5f  y*=%.5f  f(x*,y*)=%.5e\n", 
+         s.getName().c_str(), s.getNumIter(), s.getX()[0], s.getX()[1], s.getFVal());
+  
+  return EXIT_SUCCESS;
 }
 }}}
 
- In the above example, the objective function is initialized with the symbolic expression of the Rosenbrock function. By default, automatic differentiation is used for symbolic function expressions: 
+In the above example, the objective function is initialized with the symbolic expression of the Rosenbrock function. By default, automatic differentiation is used for symbolic function expressions: 
 
 {{{
 Function f("(1-x)^2+100*(y-x*x)^2");
@@ -63,3 +68,12 @@ do {
 while(status == NativeSolver::ITERATION_CONTINUE && 
       stopCrit->test(s) == false);
 }}}
+
+After the algorithm has terminated, its state is queried, and the results are printed. The number of used iterations, final x and y value and final function value are queried with methods 'getNumIter', 'getX' and 'getFVal', respectively:
+
+{{{
+printf("%-10s: niter: %-4d x*=%.5f  y*=%.5f  f(x*,y*)=%.5e\n", 
+         s.getName().c_str(), s.getNumIter(), s.getX()[0], s.getX()[1], s.getFVal());
+}}}
+
+These quantities can also be queried at any intermediate iteration step. Also, these methods are implemented for all native solvers implemented in OTK++.
