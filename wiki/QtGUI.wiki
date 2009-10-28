@@ -4,7 +4,7 @@
 
 OTK++ implements Qt4-based graphical user interface for demonstration purposes. All algorithms implemented in OTK++ are available via the GUI. However, it can only handle functions of two variables.
 
-<img src="images/Qt4-GUI-screenshot.png">
+<img src="http://otkpp.googlecode.com/svn/site/Qt4-GUI-screenshot.png">
 
 = Functionality =
 

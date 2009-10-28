@@ -93,9 +93,9 @@ PyOTK uses Matplotlib for plotting. The following visualizations for the results
   * drawing convergence plots of algorithms
   * computing the Dolan and More performance profiles
 
-<img src="images/contour_with_iterates.png">
-<img src="images/convergence_plot.png">
-<img src="images/perfprof.png">
+<img src="http://otkpp.googlecode.com/svn/site/contour_with_iterates.png">
+<img src="http://otkpp.googlecode.com/svn/site/convergence_plot.png">
+<img src="http://otkpp.googlecode.com/svn/site/perfprof.png">
 
 == 'pyotk.plot2d' module ==
 
