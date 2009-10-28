@@ -83,7 +83,7 @@ In addition to the above output, the results are also stored in the returned 're
 If the last parameter of the 'minimize' method is set to true, a special time test 
 mode will be enabled. In this case, any time-consuming operations such as storing the results is skipped, and only computation time is measured. The computed time will be stored to the 'time' attribute of the 'results' object.
 
-Download example: [http://users.utu.fi/seppul/otkpp/examples/pyotk/driver_example.py driver_example.py]
+Download example: [http://otkpp.googlecode.com/svn/site/examples/pyotk/driver_example.py driver_example.py]
 
 = Visualization =
 
@@ -93,9 +93,9 @@ PyOTK uses Matplotlib for plotting. The following visualizations for the results
   * drawing convergence plots of algorithms
   * computing the Dolan and More performance profiles
 
-<img src="http://otkpp.googlecode.com/svn/site/contour_with_iterates.png">
-<img src="http://otkpp.googlecode.com/svn/site/convergence_plot.png">
-<img src="http://otkpp.googlecode.com/svn/site/perfprof.png">
+<img src="http://otkpp.googlecode.com/svn/site/images/contour_with_iterates.png">
+<img src="http://otkpp.googlecode.com/svn/site/images/convergence_plot.png">
+<img src="http://otkpp.googlecode.com/svn/site/images/perfprof.png">
 
 == 'pyotk.plot2d' module ==
 
@@ -125,7 +125,7 @@ results = minimize(s, DefaultSolverSetup(), f.otk_instance, f.stopcrit, f.x0, No
 plot_iterates_on_contours(results, x1, x2, y1, y2, z1, z2)
 }}}
 
-Download example: [http://users.utu.fi/seppul/otkpp/examples/pyotk/plot2d_example.py plot2d_example.py]
+Download example: [http://otkpp.googlecode.com/svn/site/examples/pyotk/plot2d_example.py plot2d_example.py]
 
 == 'pyotk.convergence' module ==
 
@@ -173,9 +173,9 @@ quantities = ['gradnorm', 'funcval']
 convergence_plot(results, quantities)
 }}}
 
-Download example 1: [http://users.utu.fi/seppul/otkpp/examples/pyotk/convergence_example_1.py convergence_example_1.py]
+Download example 1: [http://otkpp.googlecode.com/svn/site/examples/pyotk/convergence_example_1.py convergence_example_1.py]
 
-Download example 2: [http://users.utu.fi/seppul/otkpp/examples/pyotk/convergence_example_2.py convergence_example_2.py]
+Download example 2: [http://otkpp.googlecode.com/svn/site/examples/pyotk/convergence_example_2.py convergence_example_2.py]
 
 == 'pyotk.perfprof' module ==
 
@@ -218,4 +218,4 @@ P = [ PowellBadlyScaled(),
 performance_profile(S, P, True)
 }}}
 
-Download example: [http://users.utu.fi/seppul/otkpp/examples/pyotk/perfprof_example.py perfprof_example.py]
+Download example: [http://otkpp.googlecode.com/svn/site/examples/pyotk/perfprof_example.py perfprof_example.py]

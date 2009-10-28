@@ -78,7 +78,7 @@ printf("%-10s: niter: %-4d x*=%.5f  y*=%.5f  f(x*,y*)=%.5e\n",
 
 These quantities can also be queried at any intermediate iteration step. Also, these methods are implemented for all native solvers implemented in OTK++.
 
-Download example: [http://users.utu.fi/seppul/otkpp/examples/otkpp/otkpp_example.cpp otkpp_example.cpp]
+Download example: [http://otkpp.googlecode.com/svn/site/examples/otkpp/otkpp_example.cpp otkpp_example.cpp]
 
 The example compiles with the following command:
 
