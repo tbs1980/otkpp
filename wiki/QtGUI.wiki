@@ -10,7 +10,7 @@ OTK++ implements Qt4-based graphical user interface for demonstration purposes. 
 
 == Problem setup and constraints `[1]` ==
 
-The user can either specify a symbolic expression or a predefined test function. A symbolic function expression may contain basic arithmetic operations and elementary functions supported by libmatheval. The list of predefined test functions contains test problems given by More, Garbow and Hillström(1981). Their expressions consist of sums of squared terms, and the number of summation terms is given with the m-parameter.
+The user can either specify a symbolic expression or a predefined test function. A symbolic function expression may contain basic arithmetic operations and elementary functions supported by libmatheval. The list of predefined test functions contains test problems given by More, Garbow and Hillström(1981). The expressions of these function consist of sums of squared terms, and the number of summation terms is given with the m-parameter. When you have finished choosing the objective function, click *Update* to apply the changes.
 
 Rectangular constraints for the problem can be specified by clicking the *Pick* button and dragging on the plotting area `[6]`. They can also be entered manually to the text fields. Press *Update* to apply the entered values. *Deactivate* clears previously specified constraints.
 
