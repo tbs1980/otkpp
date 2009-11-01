@@ -4,20 +4,36 @@
 
 OTK++ implements Qt4-based graphical user interface for demonstration purposes. All algorithms implemented in OTK++ are available via the GUI. However, it can only handle functions of two variables.
 
-<img src="http://otkpp.googlecode.com/svn/site/images/Qt4-GUI-screenshot.png">
+<img src="http://otkpp.googlecode.com/svn/site/images/Qt4-GUI.png">
 
-= Functionality =
+= Quick reference =
 
-(To be written...)
+== Problem setup and constraints `[1]` ==
 
-== Specifying the function to minimize ==
+The user can either specify a symbolic expression or a predefined test function. A symbolic function expression may contain basic arithmetic operations and elementary functions supported by libmatheval. The list of predefined test functions contains test problems given by More, Garbow and Hillström(1981). Their expressions consist of sums of squared terms, and the number of summation terms is given with the m-parameter.
 
-== Specifying constraints ==
+Rectangular constraints for the problem can be specified by clicking the *Pick* button and dragging on the plotting area `[6]`. They can also be entered manually to the text fields. Press *Update* to apply the entered values. *Deactivate* clears previously specified constraints.
 
-== Specifying the algorithm to use ==
+== Solver setup and starting point `[2]` ==
 
-== Plotting ==
+The starting point can be picked from the plotting area after activating the picking tool by pressing *Pick*. Select the algorithm to use from the combo box. 
 
-== Zooming and panning the contour plot ==
+*Note*: Specifying the stopping criterion does not work with the current version.
 
-== Picking iterates and search lines ==
+== Results summary `[3]` ==
+
+A summary of the results of the iteration is shown here. If several iteration plots are drawn, you can pick them from the plotting area `[6]` after pressing *Pick*. *Deselect* clears any selections, and *Remove selected* removes the selected iteration plot from the plotting area.
+
+== Picking iterates and search lines `[4]` ==
+
+Iterates and search lines can be picked from the iteration plot. Pressing the *Pick* button activates the picking tool. Only one iterate or search line can be picked at a time. The *Deselect* buttons clear any selected iterates or search lines. The coordinates of the selected iterate and the corresponding function value and gradient norm are shown. For a selected search line, the objective function value along the search direction is also plotted as a function of step length. 
+
+== Plotting utilities `[5]` ==
+
+Plotting ranges can be entered manually in the text boxes and clicking the *Update* button. The plotting ranges can also be adjusted with zooming and panning tools: try the *zoom out*, *zoom in* and *pan* buttons. *Clear* removes any iterates or selections from the plot. Plots can also be saved in pdf format by clicking the *Save...* button.
+
+== Plotting area `[6]` ==
+
+If *contour* is selected from the plot type button, this widget draws the contour plot of the objective function and iteration paths drawn on top of them. If the plotting type is *surface*, this widget shows a 3d surface of the objective function. 
+
+*Note:* The 3d plotting widget requires OpenGL support.
