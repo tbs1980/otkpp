@@ -66,8 +66,8 @@ Minimizer:                         (1,1)
 Minimum value:                     4.54419e-20
 Minimum gradient:                  (-8.48204e-09,4.20621e-09)
 iterations:                        20
-function evaluations:              0
-gradient evaluations:              0 (0)
+function evaluations:              67
+gradient evaluations:              46 (92)
 }}}
 
 In addition to the above output, the results are also stored in the returned 'results' object. In this case, it contains the following fields:
