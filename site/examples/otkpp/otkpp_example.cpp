@@ -1,6 +1,7 @@
 
+#include <otkpp/config.h>
 #include <otkpp/function/Function.h>
-#include <otkpp/solver/LinminBFGS.h>
+#include <otkpp/localsolvers/native/LinminBFGS.h>
 #include <otkpp/stopcrit/GradNormTest.h>
 
 int main()

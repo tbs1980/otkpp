@@ -5,8 +5,9 @@
 The following code example demonstrates initializing the objective function, solver, starting point and stopping criterion and iterating the algorithm until the stopping criterion is satisfied. 
 
 {{{
+#include <otkpp/config.h>
 #include <otkpp/function/Function.h>
-#include <otkpp/solver/LinminBFGS.h>
+#include <otkpp/localsolvers/native/LinminBFGS.h>
 #include <otkpp/stopcrit/GradNormTest.h>
 
 int main()
