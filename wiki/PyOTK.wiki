@@ -125,7 +125,7 @@ results = minimize(s, DefaultSolverSetup(), f.otk_instance, f.stopcrit, f.x0, No
 plot_iterates_on_contours(results, x1, x2, y1, y2, z1, z2)
 }}}
 
-Download example: [http://otkpp.googlecode.com/svn/site/examples/pyotk/plot2d_example.py plot2d_example.py]
+Download example: [http://otkpp.googlecode.com/svn/site/examples/pyotk/plot2d_example_1.py plot2d_example_1.py]
 
 == 'pyotk.convergence' module ==
 
