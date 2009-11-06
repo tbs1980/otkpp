@@ -1,13 +1,18 @@
+# This example demonstrates computing the Dolan and More 
+# performance profile of the given algorithms on the 
+# given set of test problems.
 
 from pyotk.native import *
 from pyotk.testproblems import *
 from pyotk.perfprof import *
 
+# Initialize the list of algorithms.
 S = [ ConjGradMT(ConjGradType.FR),
       ConjGradMT(ConjGradType.PR),
       SteihaugSR1(),
       LinminBFGS(BFGSLmType.morethuente) ]
 
+# Initialize the list of test problems.
 P = [ PowellBadlyScaled(),
       BrownBadlyScaled(),
       Beale(),
@@ -26,4 +31,5 @@ P = [ PowellBadlyScaled(),
       Trigonometric(n=5),
       ChebyQuad(n=8, m=8) ]
 
+# Compute the performance profile.
 performance_profile(S, P, True)
