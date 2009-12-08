@@ -1,5 +1,7 @@
 #summary Introduction to PyOTK and examples.
 
+*This wiki page is outdated. A new page will be written for OTK++/PyOTK versions 0.3, which will be released soon.*
+
 = Accessing the OTK++ interfaces from Python =
 
 The key idea of the PyOTK is to implement seamless interface for the OTK++ classes. That is, the syntax for calling the OTK++ classes and methods from the Python side has as identical syntax with the corresponding C++ code as possible. This can be very conveniently done with Boost.Python. 
