@@ -1,29 +1,26 @@
 
-#ifndef DSQA_H
+#ifndef DSLA_H
 
-#include <otkpp/interpolation/QuadInterp.h>
+#include <otkpp/interpolation/LinInterp.h>
+/*#include <otkpp/linalg/BFGSUpdater.h>
+#include <otkpp/linalg/SR1Updater.h>*/
 
 #include <otkpp/localsolvers/native/NativeSolver.h>
 
-/// An experimental direct search algorithm with quadratic interpolation (based on Powell's UOBYQA).
-class DSQA : public NativeSolver
+class DSLA : public NativeSolver
 {
  public:
-  struct State : public Cloneable< State, NativeSolver::State >
-  {
-    double delta;
-    QuadInterp model;
-  };
-  
   std::string getName() const;
-  const State &getState() const { return state_; }
   bool hasBuiltInStoppingCriterion() const;
   bool usesGradient() const;
   bool usesHessian() const;
  private:
+  LinInterp model_;
+  double delta_;
+  matrix< double > H_;
   int m_;
   vector< double > p_;
-  State state_;
+  //SR1Updater HUpdater_;
   vector< double > xPlus_;
   
   double computeReduction_(const vector< double > &x,
@@ -38,12 +35,16 @@ class DSQA : public NativeSolver
                                        double delta,
                                        vector< double > &p);
   NativeSolver::IterationStatus iterate_();
-  void doSetup_(const Function &objFunc,
-                const vector< double > &x0,
-                const Solver::Setup &solverSetup,
-                const Constraints &C);
+  void setup_(const Function &objFunc,
+              const vector< double > &x0,
+              const Solver::Setup &solverSetup,
+              const Constraints &C);
+  void updateHessianApprox_(const vector< double > &p,
+                            double fxPlus,
+                            double fxMinus,
+                            double fx);
 };
 
-#define DSQA_H
+#define DSLA_H
 
 #endif
