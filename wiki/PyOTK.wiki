@@ -1,111 +1,121 @@
 #summary Introduction to PyOTK and examples.
 
-*This wiki page is outdated. A new page will be written for OTK++/PyOTK versions 0.3, which will be released soon.*
-
 = Accessing the OTK++ interfaces from Python =
 
-The key idea of the PyOTK is to implement seamless interface for the OTK++ classes. That is, the syntax for calling the OTK++ classes and methods from the Python side has as identical syntax with the corresponding C++ code as possible. This can be very conveniently done with Boost.Python. 
+The key idea of the PyOTK is to implement seamless interface for the OTK++ classes. That is, the syntax for calling the OTK++ classes and methods from the Python side has as identical syntax with the corresponding C++ code as possible. This can be very conveniently done with Boost.Python. We begin with the following example that demonstrates invoking the OTK++ solvers from the Python side.
 
-The facilities for using the OTK++ classes and methods from Python are implemented in the 'native' module: 
+First we need to import the necessary PyOTK modules. The facilities for using the OTK++ classes and methods from Python are implemented in the 'native' module: 
 
 {{{
 >>> from pyotk.native import *
 }}}
 
-The 'testproblems' module contains the test problem set given by More, Garbow and Hillstrom: 
+The 'testproblems' module implements some of the test problems given by More, Garbow and Hillstrom (1981):
 
 {{{
 >>> from pyotk.testproblems import *
 }}}
 
-The Python methods for instantiating OTK++ object have a similar syntax with their C++ counterparts. For example, a GSL 'vector_bfgs2' solver and an instance of an two-dimensional Rosenbrock test function from the 'testproblems' module can be instantiated as follows:
+In this context, a "test problem" means a test function associated with additional information such as the default starting point, stopping criterion and preferred plotting ranges. Most test functions have a symbolic expression, and some arbitrary-dimensional test problems also implement generators for their symbolic expressions. See the source code of this module for details.
+
+And the 'io' module implements methods for printing the results of a solver:
 
 {{{
->>> s = GSLfdfsolver('vector_bfgs2')
->>> f = ExtendedRosenbrock(n=2)
+from pyotk.io import *
 }}}
 
-The starting point is specified as a tuple, and the stopping criterion can be instantiated with constructors similar to those in the C++ library: 
+The Python methods for instantiating OTK++ object have a similar syntax with their C++ counterparts. For example, the 'LinminBFGS' solver with the More and Thuente line search and an the two-dimensional Rosenbrock test problem from the 'testproblems' module can be instantiated as follows:
+
+{{{
+>>> s = s = LinminBFGS(LinminBFGS.LinminType.morethuente)
+>>> p = ExtendedRosenbrock(n=2)
+}}}
+
+The starting point is specified as a tuple, and the stopping criterion can be instantiated with constructors similar to those in the C++ library. In this case we test the gradient norm against the given threshold value:
 
 {{{
 >>> x0 = (-1.2, 1)
 >>> sc = GradNormTest(eps=1e-8)
 }}}
 
-minimize is the driver routine for calling OTK++ algorithms from PyOTK. Its arguments are the solver to use, its parameters, the objective function, stopping criterion, starting point, constraints, and output verbosity level (+optional arguments):
+As in the C++ library, each solver implements the 'solve' method for solving the given test problem. Its parameters are the objective function, starting point, stopping criterion, solver parameters and constraints:
 
 {{{
->>> results = minimize(s, DefaultSolverSetup(), f.otk_instance,
-                       sc, x0, NoConstraints(), 2, False)
+>>> results = s.solve(p.f, x0, sc, Solver.DefaultSetup(), NoConstraints(), False)
 }}}
 
-In this case, the minimization routine produces the following output with a list of each iterate and the final value on termination of the algorithm:
+The actual function associated with the test problem is accessed with the 'f' attribute. Each algorithm implemented in OTK++ has some good-known choice of default parameter values. By specifying 'Solver.DefaultSetup()', we choose to use them. If necessary, an instance of a class holding algorithm-specific parameters can also be used. See the reference manual for more details. We also choose not to impose any constraints by specifying 'NoConstraints()' for the constraints argument. The last argument can be used to enable a special time-test mode for measuring performance. In this mode, storing any intermediate values or solver states is skipped, since it could affect the measurements.
+
+A summary of the results can be printed by using the 'print_results' method implemented in the 'io' module:
 
 {{{
-k     x1                  x2                  f(x1,x2)
-0     -1.2                1                   24.2
-1     -1.03028            1.06927             4.12812
-2     -0.9292             0.826945            3.8548
-3     -0.784035           0.555324            3.53547
-4     -0.328604           0.0804101           1.8412
-5     -0.339617           0.108005            1.79995
-6     -0.159493           -0.00795583         1.45594
-7     0.039584            -0.0375634          1.07552
-8     0.0558816           0.00701654          0.892876
-9     0.202199            0.0184589           0.686777
-10    0.306646            0.0619552           0.583631
-11    0.844603            0.710851            0.0247749
-12    0.843606            0.710517            0.0245923
-13    0.916852            0.83491             0.0101719
-14    0.990373            0.984279            0.00127586
-15    1.00684             1.01406             5.79134e-05
-16    0.99951             0.999178            2.75314e-06
-17    0.999922            0.999841            6.90778e-09
-18    1                   1                   8.46378e-11
-19    1                   1                   3.10683e-13
-
-Minimizer:                         (1,1)
-Minimum value:                     4.54419e-20
-Minimum gradient:                  (-8.48204e-09,4.20621e-09)
-iterations:                        20
-function evaluations:              67
-gradient evaluations:              46 (92)
+>>> print_results(results, 2)
 }}}
 
-In addition to the above output, the results are also stored in the returned 'results' object. In this case, it contains the following fields:
+This method prints the following output with a list of each iterate and its corresponding function value and the final value on termination of the algorithm:
 
-|| Field || Description ||
-|| input || used input parameters ||
+{{{
+k      x1         x2         f(x1,x2)
+0      -1.200     1.000      24.2
+1      -1.030     1.069      4.1282
+2      -0.931     0.830      3.8589
+3      -0.789     0.565      3.5308
+4      -0.357     0.086      2.0182
+5      -0.372     0.133      1.8844
+6      -0.181     -0.002     1.5153
+7      0.006      -0.043     1.1732
+8      0.033      0.007      0.93746
+9      0.176      0.008      0.72981
+10     0.259      0.034      0.65748
+11     0.578      0.321      0.19539
+12     0.572      0.324      0.18433
+13     0.692      0.464      0.11567
+14     0.837      0.690      0.038802
+15     0.833      0.693      0.028063
+16     0.913      0.827      0.011232
+17     0.989      0.979      0.00036423
+18     0.997      0.993      1.2821e-05
+19     1.000      1.000      2.9413e-07
+20     1.000      1.000      4.2333e-10
+21     1.000      1.000      3.4343e-13
+22     1.000      1.000      1.0598e-20
+
+Minimizer:                (1,1)
+Minimum value:            1.0598e-20
+Iterations:               23
+Function evaluations:     64
+}}}
+
+In addition to the above output, the results are also stored in the returned 'results' object. Depending on the used solver, it contains at least the following attributes:
+
+|| Attribute || Description ||
 || converged || was the stopping criterion satisfied on termination ||
-|| num_iter || number of iterations ||
+|| f_min || the final function value ||
 || num_func_eval || number of function evaluations ||
 || num_grad_eval || number of gradient evaluations ||
-|| states || detailed information about each iterate ||
+|| num_iter || number of iterations ||
+|| setup || used input parameters ||
+|| term_val || the final value that was tested against the stopping criterion ||
+|| time || the used time, if it was measured ||
+|| x_min || the final iterate ||
 
-If the last parameter of the 'minimize' method is set to true, a special time test 
-mode will be enabled. In this case, any time-consuming operations such as storing the results is skipped, and only computation time is measured. The computed time will be stored to the 'time' attribute of the 'results' object.
+Some algorithms also support storing the state of the algorithm after each iteration step. These states are stored in the 'states' attribute.
 
-Download example: [http://otkpp.googlecode.com/svn/site/examples/pyotk/driver_example.py driver_example.py]
+Download example: [http://otkpp.googlecode.com/svn/site/examples/pyotk/solver_call.py solver_call.py]
 
 = Visualization =
 
-PyOTK uses Matplotlib for plotting. The following visualizations for the results of minimization algorithms are currently implemented:
+PyOTK uses Matplotlib for plotting. The following visualizations for analyzing the behaviour of minimization algorithms are currently implemented:
 
-  * drawing iterates of an algorithm on contours of test function
-  * drawing convergence plots of algorithms
-  * computing the Dolan and More performance profiles
+  * plotting the iterates on top of the contours of the objective function
+  * convergence plots
+  * the Dolan and More performance profiles
+  * plotting basin sets (the sets containing points from which the iteration converges to the given minimizer)
+  * the effect of problem scaling on convergence rates
 
-<img src="http://otkpp.googlecode.com/svn/site/images/contour_with_iterates.png">
-<img src="http://otkpp.googlecode.com/svn/site/images/convergence_plot.png">
-<img src="http://otkpp.googlecode.com/svn/site/images/perfprof.png">
+== Contour and iterate plots (pyotk.plot2d) ==
 
-== 'pyotk.plot2d' module ==
-
-The 'plot2d' module implements methods 
-for visualizing the iteration of a solver. 
-For a given function of two variables, 
-the iterates produced by a solver can be plotted 
-on top of contours of the objective function.
+The 'plot2d' module implements methods for visualizing the iteration of a solver. For a given function of two variables, the iterates produced by a solver can be plotted on top of contours of the objective function.
 
 The following example demonstrates minimizing the Beale test function and plotting the results using the 'plot_iterates_on_contours' method.
 
@@ -114,29 +124,25 @@ from pyotk.native import *
 from pyotk.plot2d import *
 from pyotk.testproblems import *
 
-f = Beale()
-x1 = f.plot_spec.x_range[0]
-x2 = f.plot_spec.x_range[1]
-y1 = f.plot_spec.y_range[0]
-y2 = f.plot_spec.y_range[1]
-z1 = f.plot_spec.z_range[0]
-z2 = f.plot_spec.z_range[1]
+p = Beale()
+x1 = p.plot_spec.x_range[0]
+x2 = p.plot_spec.x_range[1]
+y1 = p.plot_spec.y_range[0]
+y2 = p.plot_spec.y_range[1]
+z1 = p.plot_spec.z_range[0]
+z2 = p.plot_spec.z_range[1]
 
 s = LinminBFGS()
-results = minimize(s, DefaultSolverSetup(), f.otk_instance, f.stopcrit, f.x0, NoConstraints(), 0, False)
+
+results = s.solve(p.f, p.x0, p.stopcrit, Solver.DefaultSetup(), NoConstraints(), False)
 plot_iterates_on_contours(results, x1, x2, y1, y2, z1, z2)
 }}}
 
 Download example: [http://otkpp.googlecode.com/svn/site/examples/pyotk/plot2d_example_1.py plot2d_example_1.py]
 
-== 'pyotk.convergence' module ==
+== Convergence plots(pyotk.convergence) ==
 
-A convergence plot represents the given quantity 
-(e.g. distance to an a-priori known minimizer) as a 
-function of number of used iterations. The 
-'convergence' module implements methods 
-drawing convergence plots of one or more 
-algorithms into the same figure.
+A convergence plot represents the given quantity (e.g. distance to an a-priori known minimizer) as a function of number of used iterations. The 'convergence' module implements methods drawing convergence plots of one or more algorithms into the same figure.
 
 The first example demonstrates using the 'compare_convergence' method for comparing convergence rates of different algorithms.
 
@@ -145,8 +151,8 @@ from pyotk.native import *
 from pyotk.testproblems import *
 from pyotk.convergence import *
 
-S = [ LinminBFGS(BFGSLmType.morethuente),
-      LinminBFGS(BFGSLmType.fletcher),
+S = [ LinminBFGS(LinminBFGS.LinminType.morethuente),
+      LinminBFGS(LinminBFGS.LinminType.fletcher),
       ConjGradMT(ConjGradType.FR),
       ConjGradMT(ConjGradType.PR) ]
 
@@ -165,13 +171,11 @@ from pyotk.native import *
 from pyotk.testproblems import *
 from pyotk.convergence import *
 
-tf = ExtendedRosenbrock(8)
-results = minimize(GSLfdfsolver('vector_bfgs2'),
-                    DefaultSolverSetup(), tf.otk_instance,
-                    GradNormTest(eps=1e-8), tf.x0,
-                    NoConstraints(), 0, False)
-quantities = ['gradnorm', 'funcval']
+p = ExtendedRosenbrock(8)
+results = LinminBFGS().solve(p.f, p.x0, GradNormTest(eps=1e-10),
+  Solver.DefaultSetup(), NoConstraints(), False)
 
+quantities = ['gradnorm', 'funcval']
 convergence_plot(results, quantities)
 }}}
 
@@ -179,13 +183,9 @@ Download example 1: [http://otkpp.googlecode.com/svn/site/examples/pyotk/converg
 
 Download example 2: [http://otkpp.googlecode.com/svn/site/examples/pyotk/convergence_example_2.py convergence_example_2.py]
 
-== 'pyotk.perfprof' module ==
+== Performance profiles (pyotk.perfprof) ==
 
-The Dolan and More performance profiles are commonly 
-used for comparing performance of different algorithms. 
-For a given set of test problems and a given set of 
-solvers, these performance profiles can be computed 
-by using the 'perfprof' module.
+The Dolan and More performance profiles are commonly used for comparing performance of different algorithms. For a given set of test problems and a given set of solvers, these performance profiles can be computed by using the 'perfprof' module.
 
 The following example demonstrates using the 'performance_profile' method for computing performance profiles. The list S contains the solvers to use, and the list P contains the set of test problems.
 
@@ -197,7 +197,7 @@ from pyotk.perfprof import *
 S = [ ConjGradMT(ConjGradType.FR),
       ConjGradMT(ConjGradType.PR),
       SteihaugSR1(),
-      LinminBFGS(BFGSLmType.morethuente) ]
+      LinminBFGS(LinminBFGS.LinminType.morethuente) ]
 
 P = [ PowellBadlyScaled(),
       BrownBadlyScaled(),
@@ -221,3 +221,29 @@ performance_profile(S, P, True)
 }}}
 
 Download example: [http://otkpp.googlecode.com/svn/site/examples/pyotk/perfprof_example.py perfprof_example.py]
+
+<img src="http://otkpp.googlecode.com/svn/site/images/contour_with_iterates.png">
+<img src="http://otkpp.googlecode.com/svn/site/images/convergence_plot.png">
+<img src="http://otkpp.googlecode.com/svn/site/images/perfprof.png">
+
+== Basin sets (pyotk.startingpoint) ==
+
+Most minimization algorithms are more or less sensitive to the choice of starting point. A term "basin set" is commonly used for a set that contains the starting points from which the iteration converges to the given minimizer. The following example demonstrates how to use PyOTK for plotting these basin sets for a multimodal function with known minimizers. The 'starting_point_analysis' method called in the following example basically loops through each starting point in the given rectangular grid and classifies each of these starting points according to the minimizer the iteration converges to.
+
+{{{
+from pyotk.startingpoint import *
+
+f = Function("(x^2+y-11)^2+(x+y^2-7)^2")
+
+p_min = [ (3, 2),
+          (-2.805118, 3.131312),
+          (-3.779310, -3.283186),
+          (3.584428, -1.848126) ]
+
+s = LinminBFGS(LinminBFGS.LinminType.morethuente)
+starting_point_analysis(s, f, p_min, -5, 5, -5, 5, 150)
+s = SteihaugSR1()
+starting_point_analysis(s, f, p_min, -5, 5, -5, 5, 150)
+}}}
+
+<img src="http://otkpp.googlecode.com/svn/site/images/basin_sets.png">
