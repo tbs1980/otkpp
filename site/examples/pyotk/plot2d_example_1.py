@@ -18,6 +18,10 @@ z2 = f.plot_spec.z_range[1]
 s = LinminBFGS()
 
 # Call the driver routine and plot results.
-results = minimize(s, DefaultSolverSetup(), f.otk_instance, 
-                   f.stopcrit, f.x0, NoConstraints(), 0, False)
+#results = minimize(s, DefaultSolverSetup(), f.otk_instance, 
+#                   f.stopcrit, f.x0, NoConstraints(), 0, False)
+results = s.solve(f.f, f.x0, f.stopcrit, 
+                  Solver.DefaultSetup(), NoConstraints(), False)
+
 plot_iterates_on_contours(results, x1, x2, y1, y2, z1, z2)
+

@@ -10,7 +10,7 @@ from pyotk.perfprof import *
 S = [ ConjGradMT(ConjGradType.FR),
       ConjGradMT(ConjGradType.PR),
       SteihaugSR1(),
-      LinminBFGS(BFGSLmType.morethuente) ]
+      LinminBFGS(LinminBFGS.LinminType.morethuente) ]
 
 # Initialize the list of test problems.
 P = [ PowellBadlyScaled(),

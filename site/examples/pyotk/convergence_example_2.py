@@ -9,11 +9,9 @@ from pyotk.convergence import *
 tf = ExtendedRosenbrock(8)
 # Start iteration from the default starting point 
 # and use the BFGS algorithm with line searches.
-results = minimize(LinminBFGS(),
-                   DefaultSolverSetup(), tf.otk_instance,
-                   GradNormTest(eps=1e-10), tf.x0,
-                   NoConstraints(), 0, False)
-
+results = LinminBFGS().solve(tf.f, tf.x0, GradNormTest(eps=1e-10),
+  Solver.DefaultSetup(), NoConstraints(), False)
+                        
 # Choose gradient norm and function value and plot them.
 quantities = ['gradnorm', 'funcval']
 convergence_plot(results, quantities)

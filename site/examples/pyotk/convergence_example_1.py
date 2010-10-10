@@ -6,8 +6,8 @@ from pyotk.testproblems import *
 from pyotk.convergence import *
 
 # Initialize the list of algorithms.
-S = [ LinminBFGS(BFGSLmType.morethuente),
-      LinminBFGS(BFGSLmType.fletcher),
+S = [ LinminBFGS(LinminBFGS.LinminType.morethuente),
+      LinminBFGS(LinminBFGS.LinminType.fletcher),
       ConjGradMT(ConjGradType.FR),
       ConjGradMT(ConjGradType.PR) ]
 
