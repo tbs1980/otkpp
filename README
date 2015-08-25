@@ -1,15 +1,17 @@
+THIS REPOSITORY IS A COPY OF [https://code.google.com/p/otkpp/](https://code.google.com/p/otkpp/) WRITTEN BY [Seppo Pulkkinen](mailto:pulkkins@gmail.com). IT IS AVAILABLE UNDER [GNU GPL v3](http://www.gnu.org/licenses/gpl.html).
+
 Introduction
 ------------
-OTK++ is a nonlinear constrained/unconstrained optimization library 
-written in C++. It also has a Python-based interface for testing 
-and comparing algorithms and a Qt-based GUI for demonstration 
-purposes. Linear algebra operations and Python interfaces are 
+OTK++ is a nonlinear constrained/unconstrained optimization library
+written in C++. It also has a Python-based interface for testing
+and comparing algorithms and a Qt-based GUI for demonstration
+purposes. Linear algebra operations and Python interfaces are
 written by using uBLAS and Boost.Python.
 
 Implemented algorithms
 ----------------------
-The currently implemented algorithms are for minimization of 
-functions of the form f:R^n->R. Some algorithms also support 
+The currently implemented algorithms are for minimization of
+functions of the form f:R^n->R. Some algorithms also support
 imposing bound constraints.
 
 The following algorithms are implemented by the author of this package:
@@ -49,13 +51,13 @@ Optional dependencies:
   Library/program   Version    CMake flag                 Enables
   GSL               >= 1.11    -DWITH_GSL=ON/OFF          GSL minimization algorithms
   GNU libmatheval   >= 1.1.3   -DWITH_LIBMATHEVAL=ON/OFF  symbolic function evaluation
-  gfortran          >= 4.2     -DWITH_FORTRAN=ON/OFF      algorithms implemented in 
+  gfortran          >= 4.2     -DWITH_FORTRAN=ON/OFF      algorithms implemented in
                                                           Fortran (e.g. LMBM)
   Qt                >= 4.3     -DWITH_QT=ON/OFF           Qt-based GUI
   Qwt               >= 5.1     -DWITH_QT=ON/OFF           2d plotting widgets
   QwtPlot3D         >= 0.2     -DWITH_QT=ON/OFF           3d plotting widgets
 
-The above flags are set to 'ON' by default. 
+The above flags are set to 'ON' by default.
 
 Installation
 ------------
@@ -63,23 +65,23 @@ Installation
 Installing the C++ libraries:
 -----------------------------
 
-OTK++ uses CMake as its build system. To install the C++ libraries, 
+OTK++ uses CMake as its build system. To install the C++ libraries,
 extract the otkpp tarball and type the following commands:
 
   cmake . <optional flags>   <- put your CMake flags here
   make
   make install
 
-By default, headers will be installed in /usr/local/include/otkpp, 
-libraries in /usr/local/lib and binaries in /usr/local/bin. You can 
-change the install prefix by appending -DCMAKE_INSTALL_PREFIX=<your-prefix> 
+By default, headers will be installed in /usr/local/include/otkpp,
+libraries in /usr/local/lib and binaries in /usr/local/bin. You can
+change the install prefix by appending -DCMAKE_INSTALL_PREFIX=<your-prefix>
 to the list of CMake flags.
 
 Installing PyOTK:
 -----------------
 
-PyOTK uses distutils for compiling the C++ interface libraries and 
-copying the Python scripts to appropriate directories in the system path. 
+PyOTK uses distutils for compiling the C++ interface libraries and
+copying the Python scripts to appropriate directories in the system path.
 To install PyOTK, extract the pyotk tarball and type the following command:
 
   python setup.py install
@@ -87,20 +89,19 @@ To install PyOTK, extract the pyotk tarball and type the following command:
 References
 ----------
 
-The algorithms implemented in OTK++ are based on the following 
+The algorithms implemented in OTK++ are based on the following
 references:
 
 [1] J. Nocedal and S.J. Wright, Numerical Optimization, 1999
 
 [2] C.T. Kelley, Iterative Methods for Optimization, 1999
 
-[3] C. Zhu, R.H. Byrd and J. Nocedal, L-BFGS-B: Algorithm 778: L-BFGS-B, 
-    FORTRAN routines for large scale bound constrained optimization (1997), 
+[3] C. Zhu, R.H. Byrd and J. Nocedal, L-BFGS-B: Algorithm 778: L-BFGS-B,
+    FORTRAN routines for large scale bound constrained optimization (1997),
     ACM Transactions on Mathematical Software, Vol 23, Num. 4, pp. 550-560
 
-[4] N. Karmitsa,  "LMBM - FORTRAN Subroutines for Large-Scale Nonsmooth 
-    Minimization: User's Manual", TUCS Technical Report, No. 856, Turku 
+[4] N. Karmitsa,  "LMBM - FORTRAN Subroutines for Large-Scale Nonsmooth
+    Minimization: User's Manual", TUCS Technical Report, No. 856, Turku
     Centre for Computer Science, Turku, 2007.
 
 Seppo Pulkkinen <seppul@utu.fi>
-
